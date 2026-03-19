@@ -1,7 +1,18 @@
-import { describe, test, expect } from "bun:test";
-import { Engine } from "../pkg/phonetik_js.js";
+import { describe, test, expect, beforeAll } from "bun:test";
+import init, { Engine } from "../pkg/phonetik_js.js";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
-const engine = new Engine();
+let engine: InstanceType<typeof Engine>;
+
+beforeAll(async () => {
+  // In Node/Bun we load the WASM from disk. In browsers this would be
+  // a fetch() to the .wasm URL — the default init() handles that.
+  const wasmPath = resolve(import.meta.dir, "../pkg/phonetik_js_bg.wasm");
+  const wasmBytes = readFileSync(wasmPath);
+  await init({ module_or_path: wasmBytes });
+  engine = new Engine();
+});
 
 describe("construction", () => {
   test("word count is substantial", () => {
