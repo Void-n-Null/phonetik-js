@@ -52,9 +52,13 @@ p.nearRhymes("night", 10);
 p.rhymes("cat", 50);  // all types, merged
 
 // Scansion
-const scan = p.scan("shall I compare thee to a summer's day");
+const scan = p.scan("uneasy lies the head that wears the crown");
 scan.meter.name;       // 'iambic pentameter'
 scan.syllableCount;    // 10
+scan.visual;           // 'x / x / x / x / x /'
+
+// Raw dictionary stress (no function word demotion)
+p.scan("uneasy lies the head that wears the crown", "dictionary");
 
 // Compare
 p.compare("cat", "bat");

@@ -123,9 +123,9 @@ dependencies = [
 
 [[package]]
 name = "phonetik"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b2b2bed970dadcbea478ebac16042155730116feecc5ef3b6b4287364f4a6500"
+checksum = "8c09d2ab720e50714e222db6a72fb5d9ff9831ee4d558dafd9dc85643f13d063"
 dependencies = [
  "flate2",
  "parking_lot",
@@ -135,7 +135,7 @@ dependencies = [
 
 [[package]]
 name = "phonetik-js"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "phonetik",
  "serde",

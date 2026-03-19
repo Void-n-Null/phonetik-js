@@ -112,11 +112,21 @@ describe("rhymes", () => {
 
 describe("scansion", () => {
   test("iambic pentameter", () => {
-    const scan = engine.scan("shall I compare thee to a summer's day");
+    const scan = engine.scan("uneasy lies the head that wears the crown");
     expect(scan.syllableCount).toBe(10);
     expect(scan.meter.name).toContain("iambic");
     expect(scan.meter.footType).toBe("iamb");
-    expect(scan.visual).toBeTruthy();
+    expect(scan.meter.regularity).toBe(1.0);
+    expect(scan.visual).toBe("x / x / x / x / x /");
+  });
+
+  test("dictionary mode preserves function word stress", () => {
+    const spoken = engine.scan("shall I compare thee to a summer's day");
+    const dict = engine.scan("shall I compare thee to a summer's day", "dictionary");
+    // Dictionary mode should have more stressed syllables
+    const spokenStressed = spoken.binaryPattern.filter((b: number) => b === 1).length;
+    const dictStressed = dict.binaryPattern.filter((b: number) => b === 1).length;
+    expect(dictStressed).toBeGreaterThan(spokenStressed);
   });
 
   test("empty line", () => {

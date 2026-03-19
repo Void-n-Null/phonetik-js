@@ -1,4 +1,4 @@
-use phonetik::Phonetik;
+use phonetik::{Phonetik, StressMode};
 use serde::Serialize;
 use wasm_bindgen::prelude::*;
 
@@ -82,8 +82,14 @@ impl Engine {
     }
 
     /// Perform scansion on a line of text.
-    pub fn scan(&self, line: &str) -> JsValue {
-        to_js(&self.inner.scan(line))
+    /// Uses natural speech stress by default (function words demoted).
+    /// Pass mode = "dictionary" for raw CMUdict stress.
+    pub fn scan(&self, line: &str, mode: Option<String>) -> JsValue {
+        let stress_mode = match mode.as_deref() {
+            Some("dictionary") => StressMode::Dictionary,
+            _ => StressMode::Spoken,
+        };
+        to_js(&self.inner.scan_with_mode(line, stress_mode))
     }
 
     /// Compare two words phonetically.
